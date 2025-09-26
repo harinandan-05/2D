@@ -12,6 +12,36 @@ model User {
   id        String    @id @default(uuid())
   email     String
   username  String
-  password  String 
+  password  String
+  project   project[]
+  created   DateTime  @default(now())
 }
 
+
+model project {
+  id        String   @id @default(uuid())
+  ownerId   String
+  video     vedio[]
+  name      String
+  createdAt DateTime  @default(now())
+  owner     User    @relation(fields: [ownerId] ,references: [id])
+}
+
+model vedio{
+  id          String  @id @default(ulid())
+  projectid   String
+  project     project   @relation(fields: [projectid] , references: [id])
+  prompt      String
+  durationSec Int
+  storageUrl  String?
+  status      Vediostatus @default(QUEUED)
+}
+
+
+enum Vediostatus {
+  QUEUED
+  RENDERING
+  TRANSCODING
+  READY
+  FAILED
+}
