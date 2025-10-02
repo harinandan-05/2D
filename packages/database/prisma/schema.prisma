@@ -13,12 +13,12 @@ model User {
   email     String
   username  String
   password  String
-  project   project[]
+  project   Project[]
   created   DateTime  @default(now())
 }
 
 
-model project {
+model Project {
   id        String   @id @default(uuid())
   ownerId   String
   video     vedio[]
@@ -30,7 +30,7 @@ model project {
 model vedio{
   id          String  @id @default(ulid())
   projectid   String
-  project     project   @relation(fields: [projectid] , references: [id])
+  project     Project  @relation(fields: [projectid] , references: [id])
   prompt      String
   durationSec Int
   storageUrl  String?
